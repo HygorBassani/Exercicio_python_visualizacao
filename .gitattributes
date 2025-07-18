@@ -7,7 +7,7 @@ from dash import Dash, html, dcc, dash
 def criar_grafico(df):
 
     # Histograma
-    fig1 = px.histogram(df, x='Qtd_Vendidos_Cod', color='Marca', nbins=30, title='Quantidade de Vendidos')
+    fig1 = px.histogram(df, x='Qtd_Vendidos_Cod', color='Marca', nbins=30, title='Quantidade de Vendidos', barmode='group)
 
     #Grafico Pizza
     fig2 = px.pie(df, names='Qtd_Vendidos_Cod', color='Marca', hole=0.2, title='Quantidade de Vendidos', color_discrete_sequence=px.colors.sequential.Purples)
