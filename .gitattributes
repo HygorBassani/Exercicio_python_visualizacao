@@ -6,62 +6,24 @@ from dash import Dash, html, dcc, dash
 
 def criar_grafico(df):
 
-    # Grafico de Barras
-    fig1 = plt.figure(figsize=(10, 6))
-    df['Qtd_Vendidos_Cod'].value_counts().plot(kind='bar', color='orange')
-    plt.title('Quantidade Vendidos')
-    plt.ylabel('Quantidade')
-    plt.xlabel('Vendidos')
-    plt.xticks(rotation=0)
-
-    # Grafico Densidade
-    fig2 = plt.figure(figsize=(10, 6))
-    sns.kdeplot(df['Qtd_Vendidos_Cod'], fill=True, color='Blue')
-    plt.title('KDE - Vendidos Cod')
-    plt.xlabel('Qtd_Vendidos_Cod')
-
-    # Grafico de Dispersão
-    fig3 = plt.figure(figsize=(10, 6))
-    plt.scatter(df['Marca_Cod'], df['Qtd_Vendidos_Cod'])
-    plt.title('Dispersão entre Vendidos e Avaliações')
-    plt.xlabel('Marca')
-    plt.ylabel('Vendidos')
-
     # Histograma
-    fig4 = px.histogram(df, x='Qtd_Vendidos_Cod', color='Marca', nbins=30, title='Quantidade de Vendidos')
+    fig1 = px.histogram(df, x='Qtd_Vendidos_Cod', color='Marca', nbins=30, title='Quantidade de Vendidos')
 
     #Grafico Pizza
-    fig5 = px.pie(df, names='Qtd_Vendidos_Cod', color='Marca', hole=0.2, title='Quantidade de Vendidos', color_discrete_sequence=px.colors.sequential.Purples)
+    fig2 = px.pie(df, names='Qtd_Vendidos_Cod', color='Marca', hole=0.2, title='Quantidade de Vendidos', color_discrete_sequence=px.colors.sequential.Purples)
 
-    # Grafico Regressão
-    fig6 = sns.regplot(x='Qtd_Vendidos_Cod', y='N_Avaliações_MinMax', data=df, color='Blue',
-                scatter_kws={'alpha': 0.3, 'color': 'orange'})
-    plt.title('Grafico Regressão')
-    plt.xlabel('Qtd_Vendidos')
-    plt.ylabel('Avaliações')
+    
 
-    # Grafico Mapa Calor
-    df_corr = df[['Qtd_Vendidos_Cod', 'N_Avaliações_MinMax']].corr()
-
-    fig7 = plt.figure(figsize=(10, 6))
-    sns.heatmap(df_corr, annot=True, fmt='.2f')
-    plt.title('Correlation Heatmap')
-
-    return fig1, fig2, fig3, fig4, fig5, fig6, fig7
+    return fig1, fig2
 
 def criar_app(df):
     app = Dash(__name__)
 
-    fig1, fig2, fig3, fig4, fig5, fig6,fig7 = criar_grafico(df)
+    fig1, fig2 = criar_grafico(df)
 
     app.layout = html.Div([
         dcc.Graph(figure=fig1),
-        dcc.Graph(figure=fig2),
-        dcc.Graph(figure=fig3),
-        dcc.Graph(figure=fig4),
-        dcc.Graph(figure=fig5),
-        dcc.Graph(figure=fig6),
-        dcc.Graph(figure=fig7)
+        dcc.Graph(figure=fig2)
     ])
     return app
 
